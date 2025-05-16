@@ -5,6 +5,10 @@ const { DBConnection } = require("./database/db");
 const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
+app.use(cors());
+
+
 
 dotenv.config();
 DBConnection();
@@ -52,6 +56,7 @@ app.post("/register", async (req, res) => {
         res.status(200).json({ message: "you have successfully registered!", user,token });
     } catch (error) {
         console.log(error);
+        res.status(500).send("Something went wrong during registration");
     }
 });
 app.post("/login", async (req, res) => {
@@ -96,7 +101,7 @@ app.post("/login", async (req, res) => {
     }
 });
 
-
-app.listen(process.env.PORT, () => {
-    console.log('server is listening on port ${process.env.PORT}!');
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`server is listening on port ${PORT}!`);
 });
